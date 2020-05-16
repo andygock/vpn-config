@@ -20,8 +20,10 @@ iptables -A POSTROUTING -o tun0 -t nat -j MASQUERADE
 iptables -A INPUT -p icmp --icmp-type 8 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
 iptables -A OUTPUT -p icmp --icmp-type 0 -m state --state ESTABLISHED,RELATED -j ACCEPT
 
-iptables -A OUTPUT -o tun0 -j ACCEPT
-iptables -A OUTPUT -o enp0s3 -j ACCEPT
+# Allow all output
+#iptables -A OUTPUT -o tun0 -j ACCEPT
+#iptables -A OUTPUT -o enp0s3 -j ACCEPT
+iptables -A OUTPUT -j ACCEPT
 
 # Default rules
 iptables -P INPUT DROP
