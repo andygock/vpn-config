@@ -10,6 +10,7 @@
 # Example usage:
 #  ./connect.sh
 #  ./connect.sh "AU Sydney"
+#  ./connect.sh --silent
 #  ./connect.sh --log
 #  ./connect.sh --port-forward
 #  ./connect.sh --kill
@@ -48,7 +49,7 @@ function is_cron() {
     fi
 }
 
-# start openvpn in daemon mode
+# start openvpn in daemo`n mode
 function restart_openvpn() {
   echo "Running OpenVPN config \"$OPENVPN_CONFIG_DIR/${CONFIG}.ovpn\""
   $OPENVPN \
@@ -134,7 +135,12 @@ elif [ "$1" == "--kill" ]; then
     kill_openvpn
 else
     # user specified config file as argument #1
-    CONFIG=$1
+    if [ "$1" == "--silent" ]; then
+	    # use default server, used in /etc/rc.local
+	    CONFIG=$OPENVPN_CONFIG_DEFAULT
+    else
+	    CONFIG=$1
+    fi
 fi
 
 # if invoked from cron job, always use config file from last run
@@ -165,7 +171,7 @@ if pgrep -x "openvpn" &> /dev/null ; then
 else
     # openvpn is not running, tail log if being run interactively so user can see progress
     restart_openvpn
-    if ! is_cron ; then
+    if [ ! is_cron ] && [ "$1" != "--silent" ]; then
         echo "Show output of $OPENVPN_LOG - Ctrl+C to exit..." >&2
         tail -f "$OPENVPN_LOG"
     fi
