@@ -1,10 +1,8 @@
 #!/bin/bash
-#!/bin/bash
 #
 # Script to start openvpn
-# Run as cron job regularly
-# Checks whether tun* interface is up, and if not, starts openvpn
-#   with custom configuration
+# Run this as a cron job regularly
+# Checks whether tun* interface is up, and if not, starts openvpn with custom configuration
 # Set variables below for custom configuration
 #
 # Example usage:
@@ -16,17 +14,20 @@
 #  ./connect.sh --kill
 #
 
+# ref: https://stackoverflow.com/questions/59895/how-to-get-the-source-directory-of-a-bash-script-from-within-the-script-itself
+CFG_HOME="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
 # full path to openvpn
 OPENVPN=/usr/sbin/openvpn
 
 # .ovpn files are stored in this directory
-OPENVPN_CONFIG_DIR=/home/vpn/vpn-config/ovpn
+OPENVPN_CONFIG_DIR="$CFG_HOME/ovpn"
 
 # default config file, without .ovpn extension
 OPENVPN_CONFIG_DEFAULT="AU Sydney"
 
 # auth credentials, 1st line = username, 2nd line = password
-OPENVPN_CREDENTIALS=/home/vpn/vpn-config/credentials.txt
+OPENVPN_CREDENTIALS="$CFG_HOME/credentials.txt"
 
 # log file
 OPENVPN_LOG=/var/log/openvpn.log
@@ -49,7 +50,7 @@ function is_cron() {
     fi
 }
 
-# start openvpn in daemo`n mode
+# start openvpn in daemon mode
 function restart_openvpn() {
   echo "Running OpenVPN config \"$OPENVPN_CONFIG_DIR/${CONFIG}.ovpn\""
   $OPENVPN \
