@@ -7,7 +7,7 @@
 #
 # Example usage:
 #  ./connect.sh
-#  ./connect.sh "AU Sydney"
+#  ./connect.sh "au_sydney"
 #  ./connect.sh --silent
 #  ./connect.sh --log
 #  ./connect.sh --port-forward
@@ -24,7 +24,7 @@ OPENVPN=/usr/sbin/openvpn
 OPENVPN_CONFIG_DIR="$CFG_HOME/ovpn"
 
 # default config file, without .ovpn extension
-OPENVPN_CONFIG_DEFAULT="AU Sydney"
+OPENVPN_CONFIG_DEFAULT="au_sydney"
 
 # auth credentials, 1st line = username, 2nd line = password
 OPENVPN_CREDENTIALS="$CFG_HOME/credentials.txt"

@@ -10,6 +10,7 @@ fi
 # get .ovpn files from vendor
 curl -o pia-config.zip https://www.privateinternetaccess.com/openvpn/openvpn-strong.zip
 
+rm -rf "$CONFIG_DIR"
 unzip -o pia-config.zip -d "$CONFIG_DIR"
 rm -f pia-config.zip
 
